@@ -3,7 +3,7 @@
 This repository contains an R-based workflow to process outputs from MAgPIE (Model of Agricultural Production and its Impact on the Environment), generate spatial maps, and build automated reports for land-use scenario analysis.
 
 ## 📁 Project Structure
-
+```
 .
 ├── data/ # Input datasets (CSV, shapefiles, etc.)
 │ ├── csv/
@@ -21,6 +21,7 @@ This repository contains an R-based workflow to process outputs from MAgPIE (Mod
 ├── config.R # Configuration file
 ├── run_all.R # Main pipeline script
 └── reportOutputFolder.Rproj
+```
 
 ## ⚙️ Workflow Overview
 
@@ -45,6 +46,12 @@ The workflow is organized into sequential steps:
 To execute the full workflow:
 
 ```r
+Rscript run_all.R
+```
+
+or
+
+```r
 source("run_all.R")
 ```
 
@@ -66,7 +73,7 @@ This project relies on R and commonly used packages for:
 ## 📊 Inputs
 
 - MAgPIE output files (e.g., `.rds`, `.mz`)
-- CSV datasets (e.g., crop areas, historical data)
+- CSV datasets (e.g., crop areas, historical data) **Historical data can be inserted in `data/csv/histdatabrazil.csv`**
 - Shapefiles for spatial boundaries (Brazil regions, biomes, states, etc.)
 
 ## 📤 Outputs
