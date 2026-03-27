@@ -49,7 +49,7 @@ To execute the full workflow:
 Rscript run_all.R
 ```
 
-or
+or in an R session:
 
 ```r
 source("run_all.R")
