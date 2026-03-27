@@ -1,0 +1,25 @@
+# =========================
+# R / RStudio
+# =========================
+.Rhistory
+.Rproj.user/
+.RData
+.Ruserdata
+
+# =========================
+# Operating system files
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Final reports
+# =========================
+report/
+
+# =========================
+# Temporary / intermediate files
+# =========================
+*.log
+*.tmp
+

@@ -1,0 +1,151 @@
+﻿type,source,year ,value,unit
+Pastures and Rangelands,LAPIG,1995,152.77,million ha
+Pastures and Rangelands,LAPIG,2000,168.32,million ha
+Pastures and Rangelands,LAPIG,2005,177.17,million ha
+Pastures and Rangelands,LAPIG,2010,179.22,million ha
+Pastures and Rangelands,LAPIG,2015,178.17,million ha
+Pastures and Rangelands,LAPIG,2020,177.24,million ha
+Forest,Mapbiomas,1995,568.0288629,million ha
+Forest,Mapbiomas,2000,552.0090547,million ha
+Forest,Mapbiomas,2005,535.2429602,million ha
+Forest,Mapbiomas,2010,527.4954576,million ha
+Forest,Mapbiomas,2015,521.4796658,million ha
+Forest,Mapbiomas,2020,513.1801345,million ha
+Ruminant Meat,FAOSTAT,1995,5.8445,million tonnes
+Ruminant Meat,FAOSTAT,2000,6.6796,million tonnes
+Ruminant Meat,FAOSTAT,2005,8.6974,million tonnes
+Ruminant Meat,FAOSTAT,2010,9.2263,million tonnes
+Ruminant Meat,FAOSTAT,2015,9.54650909,million tonnes
+Ruminant Meat,FAOSTAT,2020,10.11590392,million tonnes
+Other Land,Mapbiomas,1995,51.19588857,million ha
+Other Land,Mapbiomas,2000,51.6150562,million ha
+Other Land,Mapbiomas,2005,50.79746883,million ha
+Other Land,Mapbiomas,2010,49.93474128,million ha
+Other Land,Mapbiomas,2015,49.21532897,million ha
+Other Land,Mapbiomas,2020,48.65974572,million ha
+Cropland,IBGE,1995,51.85,million ha
+Cropland,IBGE,2000,51.82,million ha
+Cropland,IBGE,2005,64.32,million ha
+Cropland,IBGE,2010,65.38,million ha
+Cropland,IBGE,2015,76.95,million ha
+Cropland,IBGE,2020,83.38,million ha
+Permanent Crops,IBGE,1995,5.708548,million ha
+Permanent Crops,IBGE,2000,6.17517,million ha
+Permanent Crops,IBGE,2005,6.25227,million ha
+Permanent Crops,IBGE,2010,6.218204,million ha
+Permanent Crops,IBGE,2015,5.845102,million ha
+Permanent Crops,IBGE,2020,5.405637,million ha
+Soybean Area,IBGE,1995,11.70,million ha
+Soybean Area,IBGE,2000,13.69,million ha
+Soybean Area,IBGE,2005,23.43,million ha
+Soybean Area,IBGE,2010,23.34,million ha
+Soybean Area,IBGE,2015,32.21,million ha
+Soybean Area,IBGE,2020,37.20,million ha
+Maize Area,IBGE,1995,14.18,million ha
+Maize Area,IBGE,2000,12.65,million ha
+Maize Area,IBGE,2005,12.25,million ha
+Maize Area,IBGE,2010,12.96,million ha
+Maize Area,IBGE,2015,15.85,million ha
+Maize Area,IBGE,2020,18.36,million ha
+Sugarcane Area,IBGE,1995,4.64,million ha
+Sugarcane Area,IBGE,2000,4.88,million ha
+Sugarcane Area,IBGE,2005,5.82,million ha
+Sugarcane Area,IBGE,2010,9.16,million ha
+Sugarcane Area,IBGE,2015,10.18,million ha
+Sugarcane Area,IBGE,2020,10,million ha
+Soybean Production,IBGE,1995,25.68,million tonnes
+Soybean Production,IBGE,2000,32.82,million tonnes
+Soybean Production,IBGE,2005,51.18,million tonnes
+Soybean Production,IBGE,2010,68.76,million tonnes
+Soybean Production,IBGE,2015,97.46,million tonnes
+Soybean Production,IBGE,2020,121.82,million tonnes
+Maize Production,IBGE,1995,36.27,million tonnes
+Maize Production,IBGE,2000,32.32,million tonnes
+Maize Production,IBGE,2005,35.11,million tonnes
+Maize Production,IBGE,2010,55.36,million tonnes
+Maize Production,IBGE,2015,85.28,million tonnes
+Maize Production,IBGE,2020,103.99,million tonnes
+Sugarcane Production,IBGE,1995,303.7,million tonnes
+Sugarcane Production,IBGE,2000,326.12,million tonnes
+Sugarcane Production,IBGE,2005,422.96,million tonnes
+Sugarcane Production,IBGE,2010,717.46,million tonnes
+Sugarcane Production,IBGE,2015,750.29,million tonnes
+Sugarcane Production,IBGE,2020,756.07,million tonnes
+CO2,SEEG,1995,2044.24374383594,million tonnes
+CO2,SEEG,2000,1371.724554,million tonnes
+CO2,SEEG,2005,1455.40902169961,million tonnes
+CO2,SEEG,2010,248.795362989729,million tonnes
+CO2,SEEG,2015,457.114354687029,million tonnes
+CO2,SEEG,2020,673.158044579382,million tonnes
+N2O,SEEG,1995,0.394230886,million tonnes
+N2O,SEEG,2000,0.390169386,million tonnes
+N2O,SEEG,2005,0.479333032,million tonnes
+N2O,SEEG,2010,0.479833004,million tonnes
+N2O,SEEG,2015,0.524457244,million tonnes
+N2O,SEEG,2020,0.58469263,million tonnes
+CH4,SEEG,1995,14.76518974,million tonnes
+CH4,SEEG,2000,14.13346955,million tonnes
+CH4,SEEG,2005,16.47589549,million tonnes
+CH4,SEEG,2010,15.15302893,million tonnes
+CH4,SEEG,2015,15.53197317,million tonnes
+CH4,SEEG,2020,15.90415332,million tonnes
+Agriculture,IBGE + LAPIG,1995,204.438819,million ha
+Agriculture,IBGE + LAPIG,2000,220.068924,million ha
+Agriculture,IBGE + LAPIG,2005,241.386479,million ha
+Agriculture,IBGE + LAPIG,2010,244.497803,million ha
+Agriculture,IBGE + LAPIG,2015,255.046406,million ha
+Agriculture,IBGE + LAPIG,2020,260.601574,million ha
+Forest Products,IBGE,1995,35.51283482,Mt DM/yr
+Forest Products,IBGE,2000,40.98537764,Mt DM/yr
+Forest Products,IBGE,2005,49.47647538,Mt DM/yr
+Forest Products,IBGE,2010,59.83182646,Mt DM/yr
+Forest Products,IBGE,2015,66.32380224,Mt DM/yr
+Forest Products,IBGE,2020,72.25398086,Mt DM/yr
+Industrial Roundwood,IBGE,1995,23.8652295,Mt DM/yr
+Industrial Roundwood,IBGE,2000,25.10112885,Mt DM/yr
+Industrial Roundwood,IBGE,2005,35.21512505,Mt DM/yr
+Industrial Roundwood,IBGE,2010,40.50953585,Mt DM/yr
+Industrial Roundwood,IBGE,2015,43.3539652,Mt DM/yr
+Industrial Roundwood,IBGE,2020,50.16919075,Mt DM/yr
+Wood Fuel,IBGE,1995,11.64760532,Mt DM/yr
+Wood Fuel,IBGE,2000,15.88424879,Mt DM/yr
+Wood Fuel,IBGE,2005,14.26135033,Mt DM/yr
+Wood Fuel,IBGE,2010,19.32229061,Mt DM/yr
+Wood Fuel,IBGE,2015,22.96983704,Mt DM/yr
+Wood Fuel,IBGE,2020,22.08479011,Mt DM/yr
+Cropland,FAOSTAT_Production,1995,51.769084,million ha
+Cropland,FAOSTAT_Production,2000,51.215334,million ha
+Cropland,FAOSTAT_Production,2005,63.68705,million ha
+Cropland,FAOSTAT_Production,2010,65.66651,million ha
+Cropland,FAOSTAT_Production,2015,76.973441,million ha
+Cropland,FAOSTAT_Production,2020,84.055137,million ha
+Forest,FAOSTAT,1995,569.9933,million ha
+Forest,FAOSTAT,2000,551.0886,million ha
+Forest,FAOSTAT,2005,531.33465,million ha
+Forest,FAOSTAT,2010,511.5807,million ha
+Forest,FAOSTAT,2015,503.8848,million ha
+Forest,FAOSTAT,2020,496.6196,million ha
+Cropland,FAOSTAT_Landuse,1995,50.105,million ha
+Cropland,FAOSTAT_Landuse,2000,54.87,million ha
+Cropland,FAOSTAT_Landuse,2005,59.635,million ha
+Cropland,FAOSTAT_Landuse,2010,61.657,million ha
+Cropland,FAOSTAT_Landuse,2015,62.987,million ha
+Cropland,FAOSTAT_Landuse,2020,63.4458462,million ha
+Temporary Crops,IBGE,1995,45.960271,million ha
+Temporary Crops,IBGE,2000,45.573754,million ha
+Temporary Crops,IBGE,2005,57.964209,million ha
+Temporary Crops,IBGE,2010,59.059599,million ha
+Temporary Crops,IBGE,2015,71.031304,million ha
+Temporary Crops,IBGE,2020,77.955937,million ha
+Urban,Mapbiomas,1995,2.4790635,million ha
+Urban,Mapbiomas,2000,2.835137505,million ha
+Urban,Mapbiomas,2005,3.096471437,million ha
+Urban,Mapbiomas,2010,3.359244846,million ha
+Urban,Mapbiomas,2015,3.690668126,million ha
+Urban,Mapbiomas,2020,3.974328791,million ha
+Secondary Forest,Mapbiomas,1995,13.919462,million ha
+Secondary Forest,Mapbiomas,2000,19.256821,million ha
+Secondary Forest,Mapbiomas,2005,24.477493,million ha
+Secondary Forest,Mapbiomas,2010,29.467018,million ha
+Secondary Forest,Mapbiomas,2015,33.559351,million ha
+Secondary Forest,Mapbiomas,2020,37.354036,million ha
