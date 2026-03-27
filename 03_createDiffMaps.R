@@ -12,6 +12,10 @@
 # Run order: THIRD — after 02_createLandMaps.R.
 
 
+# Config ------------------------------------------------------------------
+
+source(here::here("config.R"))
+
 # Libraries ---------------------------------------------------------------
 
 library(here)
@@ -20,13 +24,6 @@ library(terra)
 library(stringr)
 library(tidyverse)
 library(leaflet)
-
-
-
-# Config ------------------------------------------------------------------
-
-source(here::here("config.R"))
-
 
 # Functions ---------------------------------------------------------------
 

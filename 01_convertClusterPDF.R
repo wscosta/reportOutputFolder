@@ -7,6 +7,9 @@
 #
 # Run order: FIRST — before any other pipeline script.
 
+# Config ------------------------------------------------------------------
+
+source(here::here("config.R"))
 
 # Libraries ---------------------------------------------------------------
 
@@ -14,12 +17,6 @@ library(here)
 library(pdftools)
 library(magick)
 library(withr)
-
-
-# Config ------------------------------------------------------------------
-
-source(here::here("config.R"))
-
 
 # Function ----------------------------------------------------------------
 

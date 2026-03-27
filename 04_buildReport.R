@@ -14,6 +14,9 @@
 #
 # Run order: FOURTH — after all previous scripts have been run.
 
+# Config ------------------------------------------------------------------
+
+source(here::here("config.R"))
 
 # Libraries ---------------------------------------------------------------
 
@@ -32,9 +35,8 @@ library(glue)
 library(magick)
 
 
-# Config and helpers ------------------------------------------------------
+# Helpers ------------------------------------------------------
 
-source(here::here("config.R"))
 source(here::here("R", "plot_functions.R"))
 source(here::here("R", "table_functions.R"))
 

@@ -15,6 +15,11 @@
 # Run order: SECOND — after 01_convertClusterPDF.R.
 
 
+# Config ------------------------------------------------------------------
+
+source(here::here("config.R"))
+
+
 # Libraries ---------------------------------------------------------------
 
 library(here)
@@ -24,11 +29,6 @@ library(stringr)
 library(tidyverse)
 library(leaflet)
 library(RColorBrewer)
-
-
-# Config ------------------------------------------------------------------
-
-source(here::here("config.R"))
 
 
 # Functions ---------------------------------------------------------------
