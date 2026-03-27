@@ -23,6 +23,13 @@ if (length(missing_packages) > 0) {
   )
 }
 
+for (pkg in required_packages) {
+  if (!require(pkg, character.only = TRUE)) {
+    install.packages(pkg)
+    library(pkg, character.only = TRUE)
+  }
+}
+
 message("All required packages are installed.")
 
 # Scenario settings -------------------------------------------------------
