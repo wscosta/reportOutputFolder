@@ -32,8 +32,6 @@ library(rvg)
 library(magrittr)
 library(flextable)
 library(glue)
-library(magick)
-
 
 # Helpers ------------------------------------------------------
 

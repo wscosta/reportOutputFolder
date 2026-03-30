@@ -12,6 +12,13 @@ required_packages <- c(
   "leaflet", "RColorBrewer"
 )
 
+for (pkg in required_packages) {
+  if (!require(pkg, character.only = TRUE)) {
+    install.packages(pkg)
+    library(pkg, character.only = TRUE)
+  }
+}
+
 missing_packages <- required_packages[!sapply(required_packages, requireNamespace, quietly = TRUE)]
 
 if (length(missing_packages) > 0) {
@@ -23,12 +30,6 @@ if (length(missing_packages) > 0) {
   )
 }
 
-for (pkg in required_packages) {
-  if (!require(pkg, character.only = TRUE)) {
-    install.packages(pkg)
-    library(pkg, character.only = TRUE)
-  }
-}
 
 message("All required packages are installed.")
 
