@@ -373,8 +373,8 @@ names(crop_map_paths) <- paste0("y", crop_years)
 
 # Historical IBGE maps — static, not scenario-dependent
 hist_map_paths <- list(
-  cropland_all_1995  = fp("maps", "IBGE", "y1995", "Cropland (ALL) IBGE (1995).png"),
-  cropland_all_2020  = fp("maps", "IBGE", "y2020", "Cropland (ALL) IBGE (2020).png"),
+  cropland_all_1995  = fp("maps", "IBGE", "y1995", "Cropland IBGE (1995).png"),
+  cropland_all_2020  = fp("maps", "IBGE", "y2020", "Cropland IBGE (2020).png"),
   soybean_2020       = fp("maps", "IBGE", "y2020", "Soybean IBGE (2020).png"),
   maize_2020         = fp("maps", "IBGE", "y2020", "Maize IBGE (2020).png"),
   sugarcane_2020     = fp("maps", "IBGE", "y2020", "Sugarcane IBGE (2020).png")
@@ -707,91 +707,6 @@ doc_word <- body_add_fpar(doc_word, fpar(ftext("Orange: 10% < [diff] <= 20%", pr
 doc_word <- body_add_fpar(doc_word, fpar(ftext("Red:    [diff] > 20%",        prop = fp_text(font.size = 9)), fp_p = par_style))
 doc_word <- body_add_break(doc_word)
 
-
-# # Land Use Maps -----------------------------------------------------------
-# 
-# doc_word <- body_add_par(doc_word, "Land Use Maps", style = "heading 1")
-# doc_word <- body_add_par(doc_word, "", style = "Normal")
-# doc_word <- body_add_par(doc_word, "", style = "Normal")
-# 
-# doc_word <- body_add_par(doc_word, "Forest (Primary + Secondary)", style = "heading 2")
-# doc_word <- body_add_par(doc_word, "", style = "Normal")
-# doc_word <- body_add_img(doc_word, src = file_path_forest_1995,        width = 4, height = 4, style = "centered")
-# doc_word <- body_add_par(doc_word, "", style = "Normal")
-# doc_word <- body_add_img(doc_word, src = file_path_forest_2020,        width = 4, height = 4, style = "centered")
-# doc_word <- body_add_break(doc_word)
-# 
-# doc_word <- body_add_par(doc_word, "Primary Forest", style = "heading 2")
-# doc_word <- body_add_par(doc_word, "", style = "Normal")
-# doc_word <- body_add_img(doc_word, src = file_path_primforest_1995,    width = 4, height = 4, style = "centered")
-# doc_word <- body_add_par(doc_word, "", style = "Normal")
-# doc_word <- body_add_img(doc_word, src = file_path_primforest_2020,    width = 4, height = 4, style = "centered")
-# doc_word <- body_add_break(doc_word)
-# 
-# doc_word <- body_add_par(doc_word, "Secondary Forest", style = "heading 2")
-# doc_word <- body_add_par(doc_word, "", style = "Normal")
-# doc_word <- body_add_img(doc_word, src = file_path_secdforest_1995,    width = 4, height = 4, style = "centered")
-# doc_word <- body_add_par(doc_word, "", style = "Normal")
-# doc_word <- body_add_img(doc_word, src = file_path_secdforest_2020,    width = 4, height = 4, style = "centered")
-# doc_word <- body_add_break(doc_word)
-# 
-# doc_word <- body_add_par(doc_word, "Other Land", style = "heading 2")
-# doc_word <- body_add_par(doc_word, "", style = "Normal")
-# doc_word <- body_add_img(doc_word, src = file_path_otherland_1995,     width = 4, height = 4, style = "centered")
-# doc_word <- body_add_par(doc_word, "", style = "Normal")
-# doc_word <- body_add_img(doc_word, src = file_path_otherland_2020,     width = 4, height = 4, style = "centered")
-# doc_word <- body_add_break(doc_word)
-# 
-# doc_word <- body_add_par(doc_word, "Pastures and Rangelands", style = "heading 2")
-# doc_word <- body_add_par(doc_word, "", style = "Normal")
-# doc_word <- body_add_img(doc_word, src = file_path_pasture_1995,       width = 4, height = 4, style = "centered")
-# doc_word <- body_add_par(doc_word, "", style = "Normal")
-# doc_word <- body_add_img(doc_word, src = file_path_pasture_2020,       width = 4, height = 4, style = "centered")
-# doc_word <- body_add_break(doc_word)
-# 
-# doc_word <- body_add_par(doc_word, "Cropland", style = "heading 2")
-# doc_word <- body_add_par(doc_word, "", style = "Normal")
-# doc_word <- body_add_img(doc_word, src = file_path_cropland_1995,      width = 4, height = 4, style = "centered")
-# doc_word <- body_add_par(doc_word, "", style = "Normal")
-# doc_word <- body_add_img(doc_word, src = file_path_cropland_2020,      width = 4, height = 4, style = "centered")
-# doc_word <- body_add_break(doc_word)
-# 
-# 
-# # Crop Maps 2020 ----------------------------------------------------------
-# 
-# doc_word <- body_add_par(doc_word, "Crop Maps 2020", style = "heading 1")
-# doc_word <- body_add_par(doc_word, "", style = "Normal")
-# doc_word <- body_add_par(doc_word, "", style = "Normal")
-# 
-# doc_word <- body_add_par(doc_word, "Cropland (Total)", style = "heading 2")
-# doc_word <- body_add_par(doc_word, "", style = "Normal")
-# doc_word <- body_add_img(doc_word, src = file_path_cropland_2020,      width = 4, height = 4, style = "centered")
-# doc_word <- body_add_par(doc_word, "", style = "Normal")
-# doc_word <- body_add_img(doc_word, src = file_path_cropland_hist_2020, width = 4, height = 4, style = "centered")
-# doc_word <- body_add_break(doc_word)
-# 
-# doc_word <- body_add_par(doc_word, "Soybean (2020)", style = "heading 2")
-# doc_word <- body_add_par(doc_word, "", style = "Normal")
-# doc_word <- body_add_img(doc_word, src = file_path_soybean_2020,       width = 4, height = 4, style = "centered")
-# doc_word <- body_add_par(doc_word, "", style = "Normal")
-# doc_word <- body_add_img(doc_word, src = file_path_soybean_hist_2020,  width = 4, height = 4, style = "centered")
-# doc_word <- body_add_break(doc_word)
-# 
-# doc_word <- body_add_par(doc_word, "Maize (2020)", style = "heading 2")
-# doc_word <- body_add_par(doc_word, "", style = "Normal")
-# doc_word <- body_add_img(doc_word, src = file_path_maize_2020,         width = 4, height = 4, style = "centered")
-# doc_word <- body_add_par(doc_word, "", style = "Normal")
-# doc_word <- body_add_img(doc_word, src = file_path_maize_hist_2020,    width = 4, height = 4, style = "centered")
-# doc_word <- body_add_break(doc_word)
-# 
-# doc_word <- body_add_par(doc_word, "Sugarcane (2020)", style = "heading 2")
-# doc_word <- body_add_par(doc_word, "", style = "Normal")
-# doc_word <- body_add_img(doc_word, src = file_path_sugarcane_2020,     width = 4, height = 4, style = "centered")
-# doc_word <- body_add_par(doc_word, "", style = "Normal")
-# doc_word <- body_add_img(doc_word, src = file_path_sugarcane_hist_2020, width = 4, height = 4, style = "centered")
-# doc_word <- body_add_break(doc_word)
-
-
 # Land Use Maps -----------------------------------------------------------
 
 doc_word <- body_add_par(doc_word, "Land Use Maps", style = "heading 1")
@@ -801,7 +716,7 @@ doc_word <- body_add_par(doc_word, "", style = "Normal")
 doc_word <- body_add_par(doc_word, "Forest (Primary + Secondary)", style = "heading 2")
 doc_word <- body_add_par(doc_word, "", style = "Normal")
 for (yr in paste0("y", land_years)) {
-  doc_word <- body_add_img(doc_word, src = land_map_paths[[yr]]$forest, width = 4, height = 4, style = "centered")
+  doc_word <- body_add_img(doc_word, src = land_map_paths[[yr]]$forest, width = 5, height = 3.75, style = "centered")
   doc_word <- body_add_par(doc_word, "", style = "Normal")
 }
 doc_word <- body_add_break(doc_word)
@@ -809,7 +724,7 @@ doc_word <- body_add_break(doc_word)
 doc_word <- body_add_par(doc_word, "Primary Forest", style = "heading 2")
 doc_word <- body_add_par(doc_word, "", style = "Normal")
 for (yr in paste0("y", land_years)) {
-  doc_word <- body_add_img(doc_word, src = land_map_paths[[yr]]$primforest, width = 4, height = 4, style = "centered")
+  doc_word <- body_add_img(doc_word, src = land_map_paths[[yr]]$primforest, width = 5, height = 3.75, style = "centered")
   doc_word <- body_add_par(doc_word, "", style = "Normal")
 }
 doc_word <- body_add_break(doc_word)
@@ -817,7 +732,7 @@ doc_word <- body_add_break(doc_word)
 doc_word <- body_add_par(doc_word, "Secondary Forest", style = "heading 2")
 doc_word <- body_add_par(doc_word, "", style = "Normal")
 for (yr in paste0("y", land_years)) {
-  doc_word <- body_add_img(doc_word, src = land_map_paths[[yr]]$secdforest, width = 4, height = 4, style = "centered")
+  doc_word <- body_add_img(doc_word, src = land_map_paths[[yr]]$secdforest, width = 5, height = 3.75, style = "centered")
   doc_word <- body_add_par(doc_word, "", style = "Normal")
 }
 doc_word <- body_add_break(doc_word)
@@ -825,7 +740,7 @@ doc_word <- body_add_break(doc_word)
 doc_word <- body_add_par(doc_word, "Other Land", style = "heading 2")
 doc_word <- body_add_par(doc_word, "", style = "Normal")
 for (yr in paste0("y", land_years)) {
-  doc_word <- body_add_img(doc_word, src = land_map_paths[[yr]]$otherland, width = 4, height = 4, style = "centered")
+  doc_word <- body_add_img(doc_word, src = land_map_paths[[yr]]$otherland, width = 5, height = 3.75, style = "centered")
   doc_word <- body_add_par(doc_word, "", style = "Normal")
 }
 doc_word <- body_add_break(doc_word)
@@ -833,7 +748,7 @@ doc_word <- body_add_break(doc_word)
 doc_word <- body_add_par(doc_word, "Pastures and Rangelands", style = "heading 2")
 doc_word <- body_add_par(doc_word, "", style = "Normal")
 for (yr in paste0("y", land_years)) {
-  doc_word <- body_add_img(doc_word, src = land_map_paths[[yr]]$pasture, width = 4, height = 4, style = "centered")
+  doc_word <- body_add_img(doc_word, src = land_map_paths[[yr]]$pasture, width = 5, height = 3.75, style = "centered")
   doc_word <- body_add_par(doc_word, "", style = "Normal")
 }
 doc_word <- body_add_break(doc_word)
@@ -841,7 +756,7 @@ doc_word <- body_add_break(doc_word)
 doc_word <- body_add_par(doc_word, "Cropland", style = "heading 2")
 doc_word <- body_add_par(doc_word, "", style = "Normal")
 for (yr in paste0("y", land_years)) {
-  doc_word <- body_add_img(doc_word, src = land_map_paths[[yr]]$cropland, width = 4, height = 4, style = "centered")
+  doc_word <- body_add_img(doc_word, src = land_map_paths[[yr]]$cropland, width = 5, height = 3.75, style = "centered")
   doc_word <- body_add_par(doc_word, "", style = "Normal")
 }
 doc_word <- body_add_break(doc_word)
@@ -868,30 +783,30 @@ for (yr in paste0("y", crop_years)) {
   
   doc_word <- body_add_par(doc_word, paste0("Cropland (Total) (", year_label, ")"), style = "heading 2")
   doc_word <- body_add_par(doc_word, "", style = "Normal")
-  doc_word <- body_add_img(doc_word, src = land_map_paths[[yr]]$cropland,       width = 4, height = 4, style = "centered")
+  doc_word <- body_add_img(doc_word, src = land_map_paths[[yr]]$cropland,       width = 5, height = 3.75, style = "centered")
   doc_word <- body_add_par(doc_word, "", style = "Normal")
-  doc_word <- body_add_img(doc_word, src = hist_map_paths$cropland_all_2020,     width = 4, height = 4, style = "centered")
+  doc_word <- body_add_img(doc_word, src = hist_map_paths$cropland_all_2020,     width = 5, height = 3.75, style = "centered")
   doc_word <- body_add_break(doc_word)
   
   doc_word <- body_add_par(doc_word, paste0("Soybean (", year_label, ")"), style = "heading 2")
   doc_word <- body_add_par(doc_word, "", style = "Normal")
-  doc_word <- body_add_img(doc_word, src = crop_map_paths[[yr]]$soybean,         width = 4, height = 4, style = "centered")
+  doc_word <- body_add_img(doc_word, src = crop_map_paths[[yr]]$soybean,         width = 5, height = 3.75, style = "centered")
   doc_word <- body_add_par(doc_word, "", style = "Normal")
-  doc_word <- body_add_img(doc_word, src = hist_map_paths$soybean_2020,          width = 4, height = 4, style = "centered")
+  doc_word <- body_add_img(doc_word, src = hist_map_paths$soybean_2020,          width = 5, height = 3.75, style = "centered")
   doc_word <- body_add_break(doc_word)
   
   doc_word <- body_add_par(doc_word, paste0("Maize (", year_label, ")"), style = "heading 2")
   doc_word <- body_add_par(doc_word, "", style = "Normal")
-  doc_word <- body_add_img(doc_word, src = crop_map_paths[[yr]]$maize,           width = 4, height = 4, style = "centered")
+  doc_word <- body_add_img(doc_word, src = crop_map_paths[[yr]]$maize,           width = 5, height = 3.75, style = "centered")
   doc_word <- body_add_par(doc_word, "", style = "Normal")
-  doc_word <- body_add_img(doc_word, src = hist_map_paths$maize_2020,            width = 4, height = 4, style = "centered")
+  doc_word <- body_add_img(doc_word, src = hist_map_paths$maize_2020,            width = 5, height = 3.75, style = "centered")
   doc_word <- body_add_break(doc_word)
   
   doc_word <- body_add_par(doc_word, paste0("Sugarcane (", year_label, ")"), style = "heading 2")
   doc_word <- body_add_par(doc_word, "", style = "Normal")
-  doc_word <- body_add_img(doc_word, src = crop_map_paths[[yr]]$sugarcane,       width = 4, height = 4, style = "centered")
+  doc_word <- body_add_img(doc_word, src = crop_map_paths[[yr]]$sugarcane,       width = 5, height = 3.75, style = "centered")
   doc_word <- body_add_par(doc_word, "", style = "Normal")
-  doc_word <- body_add_img(doc_word, src = hist_map_paths$sugarcane_2020,        width = 4, height = 4, style = "centered")
+  doc_word <- body_add_img(doc_word, src = hist_map_paths$sugarcane_2020,        width = 5, height = 3.75, style = "centered")
   doc_word <- body_add_break(doc_word)
 }
 

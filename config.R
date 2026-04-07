@@ -91,13 +91,13 @@ land_titles  <- c("Primary Forest", "Secondary Forest", "Pastures and Rangelands
                   "Cropland", "Other Land", "Urban", "Forest")
 
 land_palettes <- list(
-  colorRampPalette(brewer.pal(9, "Greens"))(100),     # primforest
-  colorRampPalette(brewer.pal(9, "Greens"))(100),     # secdforest
-  colorRampPalette(brewer.pal(9, "Purples"))(100),    # past
-  colorRampPalette(brewer.pal(9, "Reds"))(100),       # crop
-  colorRampPalette(brewer.pal(9, "RdPu"))(100),       # other
-  colorRampPalette(brewer.pal(9, "Greys"))(100),      # urban
-  colorRampPalette(brewer.pal(9, "Greens"))(100)      # forest
+  colorRampPalette(brewer.pal(9, "Greens"))(9),     # primforest
+  colorRampPalette(brewer.pal(9, "Greens"))(9),     # secdforest
+  colorRampPalette(brewer.pal(9, "Purples"))(9),    # past
+  colorRampPalette(brewer.pal(9, "Reds"))(9),       # crop
+  colorRampPalette(brewer.pal(9, "RdPu"))(9),       # other
+  colorRampPalette(brewer.pal(9, "Greys"))(9),      # urban
+  colorRampPalette(brewer.pal(9, "Greens"))(9)      # forest
 )
 
 

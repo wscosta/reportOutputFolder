@@ -44,7 +44,7 @@ load_shapefiles <- function() {
 
 # Plot a single land use class for a given year and region
 plot_land <- function(raster_object, class, class_title, year, region, unit, palette, shp) {
-  ceil          <- 0.30914
+  scale_breaks  <- c(0, 0.001, 5.92, 16.76, 37.33, 71.11, 130.38, 211.54, 260, 309)
   terra_pattern <- paste0("y", year, "..", class)
   title         <- paste0(class_title, " (", year, ") ")
 
@@ -62,10 +62,10 @@ plot_land <- function(raster_object, class, class_title, year, region, unit, pal
     cat("Folder created:", output_dir, "\n")
   }
 
-  png(filename = file.path(output_dir, filetitle))
+  png(filename = file.path(output_dir, filetitle), width = 800, height = 600, res = 100)
   terra::plot(raster_object[[terra_pattern]],
               col        = palette,
-              range      = c(0, ceil),
+              breaks     = scale_breaks,
               plg        = list(title = unit, title.cex = 1, cex = 1),
               main       = title,
               cex.main   = 1,
@@ -95,7 +95,7 @@ plot_crop <- function(raster_object, class, class_title, year, unit, shp) {
     cat("Folder created:", output_dir, "\n")
   }
 
-  png(filename = file.path(output_dir, filetitle))
+  png(filename = file.path(output_dir, filetitle), width = 800, height = 600, res = 100)
   terra::plot(raster_object[[terra_pattern]],
               col        = pal(b),
               range      = c(0, ceil),
@@ -117,9 +117,8 @@ plot_hist_crop <- function(raster_object, class, class_title, year, unit, shp,
   title         <- paste0(class_title, " (", year, ") ", source_label)
   filetitle     <- paste0(class_title, " ", source_label, " (", year, ").png")
 
-  ceil <- 0.30914
-  pal  <- leaflet::colorNumeric(palette = "Reds", domain = c(0, 1), reverse = FALSE)
-  b    <- seq(0, 1, 0.001)
+  scale_breaks  <- c(0, 0.001, 5.92, 16.76, 37.33, 71.11, 130.38, 211.54, 260, 309)
+  pal <- colorRampPalette(brewer.pal(9, "Reds"))(9)
 
   output_dir <- here::here("maps", "IBGE", paste0("y", year))
   if (!dir.exists(output_dir)) {
@@ -127,10 +126,10 @@ plot_hist_crop <- function(raster_object, class, class_title, year, unit, shp,
     cat("Folder created:", output_dir, "\n")
   }
 
-  png(filename = file.path(output_dir, filetitle))
+  png(filename = file.path(output_dir, filetitle), width = 800, height = 600, res = 100)
   terra::plot(raster_object[[terra_pattern]],
-              col        = pal(b),
-              range      = c(0, ceil),
+              col        = pal,
+              breaks      = scale_breaks,
               plg        = list(title = unit, title.cex = 1, cex = 1),
               main       = title,
               cex.main   = 1,
@@ -161,9 +160,12 @@ aggregate_crop_layers <- function(rCropsBrazil, crop_rainfed, crop_irrigated, cr
 }
 
 # Helper: load a CSV crop file and convert to a cropped Brazil SpatRaster
-load_csv_crop <- function(csv_path, value_col = "value", ceil = 0.30914) {
+load_csv_crop <- function(csv_path, value_col = "value", conversionFactor, ceil = 309) {
   df        <- read.csv2(csv_path)
   df[[value_col]] <- as.numeric(df[[value_col]])
+  df       <- df %>% mutate(value = value * conversionFactor)
+  df       <- df %>% mutate(value = pmin(value, ceil))
+  
 
   mp <- magclass::as.magpie(df, spatial = "x.y.iso", tidy = TRUE)
   magclass::getItems(mp, 1, raw = TRUE) <- df[["x.y.iso"]]
@@ -182,6 +184,7 @@ shp <- load_shapefiles()
 # Land cover maps (MAgPIE output) -----------------------------------------
 
 land   <- read.magpie(file.path(magpie_output_path, "cell.land_0.5.mz"))
+land   <- land * 1000
 rLand  <- as.SpatRaster(land)
 
 for (year in land_years) {
@@ -190,8 +193,11 @@ for (year in land_years) {
 
   # Derive combined forest layer
   rLand_year[[paste0("y", year, "..forest")]] <-
-    rLand_year[[paste0("y", year, "..primforest")]] +
-    rLand_year[[paste0("y", year, "..secdforest")]]
+    terra::clamp(
+      rLand_year[[paste0("y", year, "..primforest")]] +
+        rLand_year[[paste0("y", year, "..secdforest")]],
+      upper = 309
+    )
 
   for (i in seq_along(land_classes)) {
     for (region in land_regions) {
@@ -201,7 +207,7 @@ for (year in land_years) {
         class_title   = land_titles[i],
         year          = year,
         region        = region,
-        unit          = "Mha",
+        unit          = "1000 ha",
         palette       = land_palettes[[i]],
         shp           = shp
       )
@@ -243,42 +249,12 @@ ibge_crops <- list(
 )
 
 ibge_cropland <- list(
-  list(file = "cropland_1995_all.csv", class = "cropland", title = "Cropland (ALL)", year = 1995),
-  list(file = "cropland_2000_all.csv", class = "cropland", title = "Cropland (ALL)", year = 2000),
-  list(file = "cropland_2020_all.csv", class = "cropland", title = "Cropland (ALL)", year = 2020),
-  list(file = "cropland_2024_all.csv", class = "cropland", title = "Cropland (ALL)", year = 2024)
+  list(file = "cropland_1995_all.csv", class = "cropland", title = "Cropland", year = 1995),
+  list(file = "cropland_2000_all.csv", class = "cropland", title = "Cropland", year = 2000),
+  list(file = "cropland_2020_all.csv", class = "cropland", title = "Cropland", year = 2020),
+  list(file = "cropland_2024_all.csv", class = "cropland", title = "Cropland", year = 2024)
 )
 
-for (entry in ibge_crops) {
-  output_file <- here::here(
-    "maps", "IBGE", paste0("y", entry$year),
-    paste0(entry$title, " IBGE (", entry$year, ").png")
-  )
-  if (file.exists(output_file)) next
-  r <- load_csv_crop(here::here("data", "csv", entry$file))
-  plot_hist_crop(r, entry$class, entry$title, entry$year, "Mha", shp)
-  cat("IBGE crop map created:", entry$title, "(", entry$year, ")\n")
-}
-
-for (entry in ibge_cropland) {
-  output_file <- here::here(
-    "maps", "IBGE", paste0("y", entry$year),
-    paste0(entry$title, " IBGE (", entry$year, ").png")
-  )
-  if (file.exists(output_file)) next
-  df       <- read.csv2(here::here("data", "csv", entry$file))
-  df$value <- as.numeric(df$value)
-  df       <- df %>% filter(kcr == "cropland") %>% mutate(value = value / 1e6)
-  df$value <- pmin(df$value, 0.30914)
-  
-  mp <- magclass::as.magpie(df, spatial = "x.y.iso", tidy = TRUE)
-  magclass::getItems(mp, 1, raw = TRUE) <- df[["x.y.iso"]]
-  
-  r        <- as.SpatRaster(mp)
-  r_brazil <- terra::crop(r, ext(-73.9872354804, -33.7683777809, -34.7299934555, 5.24448639569))
-  plot_hist_crop(r_brazil, entry$class, entry$title, entry$year, "Mha", shp)
-  cat("IBGE cropland map created:", entry$title, "(", entry$year, ")\n")
-}
 
 # Check if all IBGE maps were skipped (all already existed)
 all_ibge <- c(ibge_crops, ibge_cropland)
@@ -289,3 +265,31 @@ all_exist <- all(sapply(all_ibge, function(entry) {
   ))
 }))
 if (all_exist) cat("All IBGE maps already exist, skipping.\n")
+
+
+if (!all_exist) {
+  for (entry in ibge_crops) {
+    output_file <- here::here(
+      "maps", "IBGE", paste0("y", entry$year),
+      paste0(entry$title, " IBGE (", entry$year, ").png")
+    )
+    if (file.exists(output_file)) next
+    r <- load_csv_crop(here::here("data", "csv", entry$file), conversionFactor = 1e3)
+    plot_hist_crop(r, entry$class, entry$title, entry$year, "1000 ha", shp)
+    cat("IBGE crop map created:", entry$title, "(", entry$year, ")\n")
+  }
+  
+  for (entry in ibge_cropland) {
+    output_file <- here::here(
+      "maps", "IBGE", paste0("y", entry$year),
+      paste0(entry$title, " IBGE (", entry$year, ").png")
+    )
+    if (file.exists(output_file)) next
+    r <- load_csv_crop(here::here("data", "csv", entry$file), conversionFactor = 1e-3)
+    plot_hist_crop(r, entry$class, entry$title, entry$year, "1000 ha", shp)
+    cat("IBGE cropland map created:", entry$title, "(", entry$year, ")\n")
+  }
+  
+  
+}
+
