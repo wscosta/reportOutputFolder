@@ -115,9 +115,21 @@ data_bra <- data_bra_all %>%
     type == "Production|Crops|Oil crops|+|Soybean"                                   ~ "Soybean Production",
     type == "Production|Crops|Cereals|+|Maize"                                       ~ "Maize Production",
     type == "Production|Crops|Sugar crops|+|Sugar cane"                              ~ "Sugarcane Production",
-    type == "Emissions|CO2|Land|+|Land-use Change"                                   ~ "CO2",
-    type == "Emissions|NO2|Land"                                                     ~ "N2O",
-    type == "Emissions|CH4|Land"                                                     ~ "CH4",
+    type == "Emissions|CO2|Land|+|Land-use Change"                                   ~ "CO2 AFOLU",
+    type == "Emissions|NO2|Land"                                                     ~ "N2O AFOLU",
+    type == "Emissions|CH4|Land"                                                     ~ "CH4 AFOLU",
+    type == "Emissions|CH4|Land|Agriculture|+|Animal waste management"               ~ "CH4 Animal Waste Management",
+    type == "Emissions|CH4|Land|Agriculture|+|Enteric fermentation"                  ~ "CH4 Enteric Fermentation",
+    type == "Emissions|CH4|Land|Agriculture|+|Rice"                                  ~ "CH4 Rice",
+    type == "Emissions|CH4|Land|Biomass Burning|+|Burning of Crop Residues"          ~ "CH4 Burning of Crop Residues",
+    type == "Emissions|N2O|Land|Biomass Burning|+|Burning of Crop Residues"          ~ "N2O Burning of Crop Residues",
+    type == "Emissions|N2O|Land|Agriculture|+|Animal Waste Management"               ~ "N2O Animal Waste Management",
+    type == "Emissions|N2O|Land|Agriculture|Agricultural Soils|+|Decay of Crop Residues" ~ "N2O Decay of Crop Residues",
+    type == "Emissions|N2O|Land|Agriculture|Agricultural Soils|+|Inorganic Fertilizers"  ~ "N2O Inorganic Fertilizers",
+    type == "Emissions|N2O|Land|Agriculture|Agricultural Soils|+|Manure applied to Croplands" ~ "N2O Manure Applied to Croplands",
+    type == "Emissions|N2O|Land|Agriculture|Agricultural Soils|+|Pasture"            ~ "N2O Pasture",
+    type == "Emissions|N2O|Land|Agriculture|Agricultural Soils|+|Soil Organic Matter Loss" ~ "N2O Soil Organic Matter Loss",
+    type == "Emissions|N2O|Land|Peatland|+|Managed"                                  ~ "N2O Peatland",
     type == "Production|Livestock products|+|Ruminant meat"                          ~ "Ruminant Meat",
     type == "Resources|Land Cover|Other Land|Initial"                                ~ "Initial",
     type == "Resources|Land Cover|Other Land|Recovered"                              ~ "Recovered",
@@ -132,7 +144,13 @@ data_bra <- data_bra_all %>%
     "Cropland", "Pastures and Rangelands", "Other Land",
     "Soybean Area", "Maize Area", "Sugarcane Area",
     "Soybean Production", "Maize Production", "Sugarcane Production",
-    "CO2", "CH4", "N2O", "Ruminant Meat",
+    "CO2 AFOLU", "CH4 AFOLU", "N2O AFOLU", 
+    "CH4 Animal Waste Management", "CH4 Enteric Fermentation", "CH4 Rice",
+    "CH4 Burning of Crop Residues", "N2O Burning of Crop Residues",
+    "N2O Animal Waste Management", "N2O Decay of Crop Residues",
+    "N2O Inorganic Fertilizers", "N2O Manure Applied to Croplands",
+    "N2O Pasture", "N2O Soil Organic Matter Loss", "N2O Peatland",
+    "Ruminant Meat",
     "Initial", "Recovered", "Restored",
     "Oilpalms", "FruVeg", "TAU"
   ))
@@ -289,48 +307,137 @@ data_sugarcane_prod <- prepare_plot_data(data_bra, data_hist,
 sugarcane_prod <- plot_comparisons(data_sugarcane_prod, ylab = "Production (Mt)")
 ft_sugarcane_prod <- build_table(data_sugarcane_prod, "IBGE")
 
-# CO2 Emissions
-data_CO2 <- prepare_plot_data(data_bra, data_hist,
-                              product_type   = "CO2",
-                              product_levels = c(selected_scenario, "SEEG")) %>%
+# CO2 AFOLU Emissions
+data_CO2_afolu <- prepare_plot_data(data_bra, data_hist,
+                              product_type   = "CO2 AFOLU",
+                              product_levels = c(selected_scenario, "SEEG13")) %>%
   dplyr::mutate(value = value / 1000, unit = "Gt CO2/yr")
 ylab_CO2   <- parse(text = as.character(expression(paste("Gt ", CO[2], " /yr"))))
-CO2_emissions <- plot_comparisons(data_CO2, ylab = ylab_CO2)
-ft_CO2_emissions <- build_table(data_CO2, "SEEG")
+CO2_emissions_afolu <- plot_comparisons(data_CO2_afolu, ylab = ylab_CO2)
+ft_CO2_emissions_afolu <- build_table(data_CO2_afolu, "SEEG13")
+
+# CH4 AFOLU Emissions
+data_CH4_afolu <- prepare_plot_data(data_bra, data_hist,
+                              product_type   = "CH4 AFOLU",
+                              product_levels = c(selected_scenario, "SEEG13"))
+ylab_CH4 <- parse(text = as.character(expression(paste("Mt ", CH[4], " /yr"))))
+CH4_emissions_afolu <- plot_comparisons(data_CH4_afolu, ylab = ylab_CH4)
+ft_CH4_emissions_afolu <- build_table(data_CH4_afolu, "SEEG13")
+
+# N2O AFOLU Emissions
+data_N2O_afolu <- prepare_plot_data(data_bra, data_hist,
+                              product_type   = "N2O AFOLU",
+                              product_levels = c(selected_scenario, "SEEG13"))
+ylab_N2O <- parse(text = as.character(expression(paste("Mt ", N[2], "O /yr"))))
+N2O_emissions_afolu <- plot_comparisons(data_N2O_afolu, ylab = ylab_N2O)
+ft_N2O_emissions_afolu <- build_table(data_N2O_afolu, "SEEG13")
+
+# CH4 Rice
+data_CH4_Rice <- prepare_plot_data(data_bra, data_hist,
+                                   product_type   = "CH4 Rice",
+                                   product_levels = c(selected_scenario, "SEEG13"))
+ylab_CH4_Rice <- parse(text = as.character(expression(paste("Mt ", CH[4], " /yr"))))
+CH4_Rice_emissions <- plot_comparisons(data_CH4_Rice, ylab = ylab_CH4_Rice)
+ft_CH4_Rice_emissions <- build_table(data_CH4_Rice, "SEEG13")
+
+# CH4 Enteric Fermentation
+data_CH4_EF <- prepare_plot_data(data_bra, data_hist,
+                                 product_type   = "CH4 Enteric Fermentation",
+                                 product_levels = c(selected_scenario, "SEEG13"))
+ylab_CH4_EF <- parse(text = as.character(expression(paste("Mt ", CH[4], " /yr"))))
+CH4_EF_emissions <- plot_comparisons(data_CH4_EF, ylab = ylab_CH4_EF)
+ft_CH4_EF_emissions <- build_table(data_CH4_EF, "SEEG13")
+
+# CH4 Animal Waste Management
+data_CH4_AWM <- prepare_plot_data(data_bra, data_hist,
+                                  product_type   = "CH4 Animal Waste Management",
+                                  product_levels = c(selected_scenario, "SEEG13")) %>%
+  dplyr::mutate(value = value * 1000, unit = "t CH4/yr")
+ylab_CH4_AWM <- parse(text = as.character(expression(paste("t ", CH[4], " /yr"))))
+CH4_AWM_emissions <- plot_comparisons(data_CH4_AWM, ylab = ylab_CH4_AWM)
+ft_CH4_AWM_emissions <- build_table(data_CH4_AWM, "SEEG13")
+
+# CH4 Burning of Crop Residues
+data_CH4_BCR <- prepare_plot_data(data_bra, data_hist,
+                                  product_type   = "CH4 Burning of Crop Residues",
+                                  product_levels = c(selected_scenario, "SEEG13"))
+ylab_CH4_BCR <- parse(text = as.character(expression(paste("Mt ", CH[4], " /yr"))))
+CH4_BCR_emissions <- plot_comparisons(data_CH4_BCR, ylab = ylab_CH4_BCR)
+ft_CH4_BCR_emissions <- build_table(data_CH4_BCR, "SEEG13")
+
+# N2O Animal Waste Management
+data_N2O_AWM <- prepare_plot_data(data_bra, data_hist,
+                                  product_type   = "N2O Animal Waste Management",
+                                  product_levels = c(selected_scenario, "SEEG13")) %>%
+  dplyr::mutate(value = value * 1000, unit = "t N2O/yr")
+ylab_N2O_AWM <- parse(text = as.character(expression(paste("t ", N[2], "O /yr"))))
+N2O_AWM_emissions <- plot_comparisons(data_N2O_AWM, ylab = ylab_N2O_AWM)
+ft_N2O_AWM_emissions <- build_table(data_N2O_AWM, "SEEG13")
+
+# N2O Burning of Crop Residues
+data_N2O_BCR <- prepare_plot_data(data_bra, data_hist,
+                                  product_type   = "N2O Burning of Crop Residues",
+                                  product_levels = c(selected_scenario, "SEEG13")) %>%
+  dplyr::mutate(value = value * 1000, unit = "t N2O/yr")
+ylab_N2O_BCR <- parse(text = as.character(expression(paste("t ", N[2], "O /yr"))))
+N2O_BCR_emissions <- plot_comparisons(data_N2O_BCR, ylab = ylab_N2O_BCR)
+ft_N2O_BCR_emissions <- build_table(data_N2O_BCR, "SEEG13")
+
+# N2O Decay of Crop Residues
+data_N2O_DCR <- prepare_plot_data(data_bra, data_hist,
+                                  product_type   = "N2O Decay of Crop Residues",
+                                  product_levels = c(selected_scenario, "SEEG13"))
+ylab_N2O_DCR <- parse(text = as.character(expression(paste("Mt ", N[2], "O /yr"))))
+N2O_DCR_emissions <- plot_comparisons(data_N2O_DCR, ylab = ylab_N2O_DCR)
+ft_N2O_DCR_emissions <- build_table(data_N2O_DCR, "SEEG13")
+
+# N2O Inorganic Fertilizers
+data_N2O_IF <- prepare_plot_data(data_bra, data_hist,
+                                 product_type   = "N2O Inorganic Fertilizers",
+                                 product_levels = c(selected_scenario, "SEEG13"))
+ylab_N2O_IF <- parse(text = as.character(expression(paste("Mt ", N[2], "O /yr"))))
+N2O_IF_emissions <- plot_comparisons(data_N2O_IF, ylab = ylab_N2O_IF)
+ft_N2O_IF_emissions <- build_table(data_N2O_IF, "SEEG13")
+
+# N2O Manure Applied to Croplands
+data_N2O_MAC <- prepare_plot_data(data_bra, data_hist,
+                                  product_type   = "N2O Manure Applied to Croplands",
+                                  product_levels = c(selected_scenario, "SEEG13"))
+ylab_N2O_MAC <- parse(text = as.character(expression(paste("Mt ", N[2], "O /yr"))))
+N2O_MAC_emissions <- plot_comparisons(data_N2O_MAC, ylab = ylab_N2O_MAC)
+ft_N2O_MAC_emissions <- build_table(data_N2O_MAC, "SEEG13")
+
+# N2O Pasture
+data_N2O_Pasture <- prepare_plot_data(data_bra, data_hist,
+                                      product_type   = "N2O Pasture",
+                                      product_levels = c(selected_scenario, "SEEG13"))
+ylab_N2O_Pasture <- parse(text = as.character(expression(paste("Mt ", N[2], "O /yr"))))
+N2O_Pasture_emissions <- plot_comparisons(data_N2O_Pasture, ylab = ylab_N2O_Pasture)
+ft_N2O_Pasture_emissions <- build_table(data_N2O_Pasture, "SEEG13")
+
+# N2O Peatland
+data_N2O_Peat <- prepare_plot_data(data_bra, data_hist,
+                                   product_type   = "N2O Peatland",
+                                   product_levels = c(selected_scenario, "SEEG13"))%>%
+  dplyr::mutate(value = value * 1000, unit = "t N2O/yr")
+ylab_N2O_Peat <- parse(text = as.character(expression(paste("t ", N[2], "O /yr"))))
+N2O_Peat_emissions <- plot_comparisons(data_N2O_Peat, ylab = ylab_N2O_Peat)
+ft_N2O_Peat_emissions <- build_table(data_N2O_Peat, "SEEG13")
+
+# N2O Soil Organic Matter Loss
+data_N2O_SOML <- prepare_plot_data(data_bra, data_hist,
+                                   product_type   = "N2O Soil Organic Matter Loss",
+                                   product_levels = c(selected_scenario, "SEEG13")) %>%
+  dplyr::mutate(value = value * 1000, unit = "t N2O/yr")
+ylab_N2O_SOML <- parse(text = as.character(expression(paste("t ", N[2], "O /yr"))))
+N2O_SOML_emissions <- plot_comparisons(data_N2O_SOML, ylab = ylab_N2O_SOML)
+ft_N2O_SOML_emissions <- build_table(data_N2O_SOML, "SEEG13")
+
 
 
 # Image file paths --------------------------------------------------------
 
-# dir_land_1995      <- file.path("maps", outputFolder, "land", "y1995", "Brazil")
-# dir_land_2020      <- file.path("maps", outputFolder, "land", "y2020", "Brazil")
-# dir_crops_1995     <- file.path("maps", outputFolder, "crop","y1995")
-# dir_crops_2020     <- file.path("maps", outputFolder, "crop","y2020")
-# dir_hist_crops_1995 <- file.path("maps", "IBGE", "y1995")
-# dir_hist_crops_2020 <- file.path("maps", "IBGE", "y2020")
-# 
-# fp <- function(dir, filename) file.path(dir, filename)
 fp <- function(...) file.path(...)
-# 
-# file_path_forest_1995        <- fp(dir_land_1995, "Forest 1995 Brazil.png")
-# file_path_forest_2020        <- fp(dir_land_2020, "Forest 2020 Brazil.png")
-# file_path_primforest_1995    <- fp(dir_land_1995, "Primary Forest 1995 Brazil.png")
-# file_path_primforest_2020    <- fp(dir_land_2020, "Primary Forest 2020 Brazil.png")
-# file_path_secdforest_1995    <- fp(dir_land_1995, "Secondary Forest 1995 Brazil.png")
-# file_path_secdforest_2020    <- fp(dir_land_2020, "Secondary Forest 2020 Brazil.png")
-# file_path_otherland_1995     <- fp(dir_land_1995, "Other Land 1995 Brazil.png")
-# file_path_otherland_2020     <- fp(dir_land_2020, "Other Land 2020 Brazil.png")
-# file_path_cropland_1995      <- fp(dir_land_1995, "Cropland 1995 Brazil.png")
-# file_path_cropland_2020      <- fp(dir_land_2020, "Cropland 2020 Brazil.png")
-# file_path_pasture_1995       <- fp(dir_land_1995, "Pastures and Rangelands 1995 Brazil.png")
-# file_path_pasture_2020       <- fp(dir_land_2020, "Pastures and Rangelands 2020 Brazil.png")
-# file_path_soybean_2020       <- fp(dir_crops_2020, "MAgPIE - Soybean2020.png")
-# file_path_maize_2020         <- fp(dir_crops_2020, "MAgPIE - Maize2020.png")
-# file_path_sugarcane_2020     <- fp(dir_crops_2020, "MAgPIE - Sugarcane2020.png")
-# file_path_cropland_hist_1995 <- fp(dir_hist_crops_1995, "Cropland (ALL) IBGE (1995) All.png")
-# file_path_cropland_hist_2020 <- fp(dir_hist_crops_2020, "Cropland (ALL) IBGE (2020).png")
-# file_path_soybean_hist_2020  <- fp(dir_hist_crops_2020, "Soybean IBGE (2020).png")
-# file_path_maize_hist_2020    <- fp(dir_hist_crops_2020, "Maize IBGE (2020).png")
-# file_path_sugarcane_hist_2020 <- fp(dir_hist_crops_2020, "Sugarcane IBGE (2020).png")
 
 
 # Land maps — built dynamically from land_years defined in config.R
@@ -678,24 +785,31 @@ doc_word <- body_add_fpar(doc_word, fpar(ftext("Orange: 10% < [diff] <= 20%", pr
 doc_word <- body_add_fpar(doc_word, fpar(ftext("Red:    [diff] > 20%",        prop = fp_text(font.size = 9)), fp_p = par_style))
 doc_word <- body_add_break(doc_word)
 
-formatted_CO2 <- fpar(
+
+
+# Emissions ---------------------------------------------------------------
+doc_word <- body_add_par(doc_word, "Emissions", style = "heading 1")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+
+formatted_CO2_afolu <- fpar(
   ftext("CO",              fp_text(font.size = 13, bold = TRUE, font.family = "Calibri (Headings)")),
   ftext("2",               fp_text(font.size = 13, bold = TRUE, font.family = "Calibri (Headings)", vertical.align = "subscript")),
   ftext(" emissions (AFOLU)", fp_text(font.size = 13, bold = TRUE, font.family = "Calibri (Headings)"))
 )
-doc_word <- body_add_fpar(doc_word, formatted_CO2, style = "heading 2")
+doc_word <- body_add_fpar(doc_word, formatted_CO2_afolu, style = "heading 2")
 doc_word <- body_add_par(doc_word, "", style = "Normal")
 doc_word <- body_add_par(doc_word, "", style = "Normal")
 doc_word <- body_add_par(doc_word, "", style = "Normal")
 doc_word <- body_add_par(doc_word, "", style = "Normal")
 doc_word <- body_add_par(doc_word, "", style = "Normal")
 doc_word <- body_add_par(doc_word, "", style = "Normal")
-doc_word <- body_add_gg(doc_word, value = CO2_emissions, res = 600,
+doc_word <- body_add_gg(doc_word, value = CO2_emissions_afolu, res = 600,
                         width = 6, height = 3.33, style = "centered")
 doc_word <- body_add_par(doc_word, "", style = "Normal")
 doc_word <- body_add_par(doc_word, "", style = "Normal")
 doc_word <- body_add_par(doc_word, "", style = "Normal")
-doc_word <- body_add_flextable(doc_word, value = ft_CO2_emissions)
+doc_word <- body_add_flextable(doc_word, value = ft_CO2_emissions_afolu)
 doc_word <- body_add_par(doc_word, "", style = "Normal")
 doc_word <- body_add_par(doc_word, "", style = "Normal")
 doc_word <- body_add_par(doc_word, "", style = "Normal")
@@ -706,6 +820,413 @@ doc_word <- body_add_fpar(doc_word, fpar(ftext("Green:  [diff] <= 10%",       pr
 doc_word <- body_add_fpar(doc_word, fpar(ftext("Orange: 10% < [diff] <= 20%", prop = fp_text(font.size = 9)), fp_p = par_style))
 doc_word <- body_add_fpar(doc_word, fpar(ftext("Red:    [diff] > 20%",        prop = fp_text(font.size = 9)), fp_p = par_style))
 doc_word <- body_add_break(doc_word)
+
+formatted_CH4_afolu <- fpar(
+  ftext("CH",              fp_text(font.size = 13, bold = TRUE, font.family = "Calibri (Headings)")),
+  ftext("4",               fp_text(font.size = 13, bold = TRUE, font.family = "Calibri (Headings)", vertical.align = "subscript")),
+  ftext(" emissions (AFOLU)", fp_text(font.size = 13, bold = TRUE, font.family = "Calibri (Headings)"))
+)
+doc_word <- body_add_fpar(doc_word, formatted_CH4_afolu, style = "heading 2")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_gg(doc_word, value = CH4_emissions_afolu, res = 600,
+                        width = 6, height = 3.33, style = "centered")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_flextable(doc_word, value = ft_CH4_emissions_afolu)
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_fpar(doc_word, fpar(ftext("Variable: Emissions|CH4|Land", prop = fp_text(font.size = 9)), fp_p = par_style))
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_fpar(doc_word, fpar(ftext("Green:  [diff] <= 10%",       prop = fp_text(font.size = 9)), fp_p = par_style))
+doc_word <- body_add_fpar(doc_word, fpar(ftext("Orange: 10% < [diff] <= 20%", prop = fp_text(font.size = 9)), fp_p = par_style))
+doc_word <- body_add_fpar(doc_word, fpar(ftext("Red:    [diff] > 20%",        prop = fp_text(font.size = 9)), fp_p = par_style))
+doc_word <- body_add_break(doc_word)
+
+formatted_N2O_afolu <- fpar(
+  ftext("N",              fp_text(font.size = 13, bold = TRUE, font.family = "Calibri (Headings)")),
+  ftext("2",               fp_text(font.size = 13, bold = TRUE, font.family = "Calibri (Headings)", vertical.align = "subscript")),
+  ftext("O emissions (AFOLU)", fp_text(font.size = 13, bold = TRUE, font.family = "Calibri (Headings)"))
+)
+doc_word <- body_add_fpar(doc_word, formatted_N2O_afolu, style = "heading 2")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_gg(doc_word, value = N2O_emissions_afolu, res = 600,
+                        width = 6, height = 3.33, style = "centered")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_flextable(doc_word, value = ft_N2O_emissions_afolu)
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_fpar(doc_word, fpar(ftext("Variable: Emissions|N2O|Land", prop = fp_text(font.size = 9)), fp_p = par_style))
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_fpar(doc_word, fpar(ftext("Green:  [diff] <= 10%",       prop = fp_text(font.size = 9)), fp_p = par_style))
+doc_word <- body_add_fpar(doc_word, fpar(ftext("Orange: 10% < [diff] <= 20%", prop = fp_text(font.size = 9)), fp_p = par_style))
+doc_word <- body_add_fpar(doc_word, fpar(ftext("Red:    [diff] > 20%",        prop = fp_text(font.size = 9)), fp_p = par_style))
+doc_word <- body_add_break(doc_word)
+
+formatted_CH4_EF <- fpar(
+  ftext("CH",              fp_text(font.size = 13, bold = TRUE, font.family = "Calibri (Headings)")),
+  ftext("4",               fp_text(font.size = 13, bold = TRUE, font.family = "Calibri (Headings)", vertical.align = "subscript")),
+  ftext(" Enteric Fermentation", fp_text(font.size = 13, bold = TRUE, font.family = "Calibri (Headings)"))
+)
+doc_word <- body_add_fpar(doc_word, formatted_CH4_EF, style = "heading 2")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_gg(doc_word, value = CH4_EF_emissions, res = 600,
+                        width = 6, height = 3.33, style = "centered")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_flextable(doc_word, value = ft_CH4_EF_emissions)
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_fpar(doc_word, fpar(ftext("Variable: Emissions|CH4|Land|Agriculture|+|Enteric fermentation", prop = fp_text(font.size = 9)), fp_p = par_style))
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_fpar(doc_word, fpar(ftext("Green:  [diff] <= 10%",       prop = fp_text(font.size = 9)), fp_p = par_style))
+doc_word <- body_add_fpar(doc_word, fpar(ftext("Orange: 10% < [diff] <= 20%", prop = fp_text(font.size = 9)), fp_p = par_style))
+doc_word <- body_add_fpar(doc_word, fpar(ftext("Red:    [diff] > 20%",        prop = fp_text(font.size = 9)), fp_p = par_style))
+doc_word <- body_add_break(doc_word)
+
+formatted_CH4_rice <- fpar(
+  ftext("CH",              fp_text(font.size = 13, bold = TRUE, font.family = "Calibri (Headings)")),
+  ftext("4",               fp_text(font.size = 13, bold = TRUE, font.family = "Calibri (Headings)", vertical.align = "subscript")),
+  ftext(" Rice", fp_text(font.size = 13, bold = TRUE, font.family = "Calibri (Headings)"))
+)
+doc_word <- body_add_fpar(doc_word, formatted_CH4_rice, style = "heading 2")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_gg(doc_word, value = CH4_Rice_emissions, res = 600,
+                        width = 6, height = 3.33, style = "centered")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_flextable(doc_word, value = ft_CH4_Rice_emissions)
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_fpar(doc_word, fpar(ftext("Variable: Emissions|CH4|Land|Agriculture|+|Rice", prop = fp_text(font.size = 9)), fp_p = par_style))
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_fpar(doc_word, fpar(ftext("Green:  [diff] <= 10%",       prop = fp_text(font.size = 9)), fp_p = par_style))
+doc_word <- body_add_fpar(doc_word, fpar(ftext("Orange: 10% < [diff] <= 20%", prop = fp_text(font.size = 9)), fp_p = par_style))
+doc_word <- body_add_fpar(doc_word, fpar(ftext("Red:    [diff] > 20%",        prop = fp_text(font.size = 9)), fp_p = par_style))
+doc_word <- body_add_break(doc_word)
+
+formatted_CH4_BCR <- fpar(
+  ftext("CH",              fp_text(font.size = 13, bold = TRUE, font.family = "Calibri (Headings)")),
+  ftext("4",               fp_text(font.size = 13, bold = TRUE, font.family = "Calibri (Headings)", vertical.align = "subscript")),
+  ftext(" Burning of Crop Residues", fp_text(font.size = 13, bold = TRUE, font.family = "Calibri (Headings)"))
+)
+doc_word <- body_add_fpar(doc_word, formatted_CH4_BCR, style = "heading 2")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_gg(doc_word, value = CH4_BCR_emissions, res = 600,
+                        width = 6, height = 3.33, style = "centered")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_flextable(doc_word, value = ft_CH4_BCR_emissions)
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_fpar(doc_word, fpar(ftext("Variable: Emissions|CH4|Land|Biomass Burning|+|Burning of Crop Residues ", prop = fp_text(font.size = 9)), fp_p = par_style))
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_fpar(doc_word, fpar(ftext("Green:  [diff] <= 10%",       prop = fp_text(font.size = 9)), fp_p = par_style))
+doc_word <- body_add_fpar(doc_word, fpar(ftext("Orange: 10% < [diff] <= 20%", prop = fp_text(font.size = 9)), fp_p = par_style))
+doc_word <- body_add_fpar(doc_word, fpar(ftext("Red:    [diff] > 20%",        prop = fp_text(font.size = 9)), fp_p = par_style))
+doc_word <- body_add_break(doc_word)
+
+formatted_CH4_AWM <- fpar(
+  ftext("CH",              fp_text(font.size = 13, bold = TRUE, font.family = "Calibri (Headings)")),
+  ftext("4",               fp_text(font.size = 13, bold = TRUE, font.family = "Calibri (Headings)", vertical.align = "subscript")),
+  ftext(" Animal Waste Management", fp_text(font.size = 13, bold = TRUE, font.family = "Calibri (Headings)"))
+)
+doc_word <- body_add_fpar(doc_word, formatted_CH4_AWM, style = "heading 2")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_gg(doc_word, value = CH4_AWM_emissions, res = 600,
+                        width = 6, height = 3.33, style = "centered")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_flextable(doc_word, value = ft_CH4_AWM_emissions)
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_fpar(doc_word, fpar(ftext("Variable: Emissions|CH4|Land|Agriculture|+|Animal waste management", prop = fp_text(font.size = 9)), fp_p = par_style))
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_fpar(doc_word, fpar(ftext("Green:  [diff] <= 10%",       prop = fp_text(font.size = 9)), fp_p = par_style))
+doc_word <- body_add_fpar(doc_word, fpar(ftext("Orange: 10% < [diff] <= 20%", prop = fp_text(font.size = 9)), fp_p = par_style))
+doc_word <- body_add_fpar(doc_word, fpar(ftext("Red:    [diff] > 20%",        prop = fp_text(font.size = 9)), fp_p = par_style))
+doc_word <- body_add_break(doc_word)
+
+formatted_N2O_Pasture <- fpar(
+  ftext("N",              fp_text(font.size = 13, bold = TRUE, font.family = "Calibri (Headings)")),
+  ftext("2",               fp_text(font.size = 13, bold = TRUE, font.family = "Calibri (Headings)", vertical.align = "subscript")),
+  ftext("O Pasture", fp_text(font.size = 13, bold = TRUE, font.family = "Calibri (Headings)"))
+)
+doc_word <- body_add_fpar(doc_word, formatted_N2O_Pasture, style = "heading 2")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_gg(doc_word, value = N2O_Pasture_emissions, res = 600,
+                        width = 6, height = 3.33, style = "centered")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_flextable(doc_word, value = ft_N2O_Pasture_emissions)
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_fpar(doc_word, fpar(ftext("Variable: Emissions|N2O|Land|Agriculture|Agricultural Soils|+|Pasture", prop = fp_text(font.size = 9)), fp_p = par_style))
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_fpar(doc_word, fpar(ftext("Green:  [diff] <= 10%",       prop = fp_text(font.size = 9)), fp_p = par_style))
+doc_word <- body_add_fpar(doc_word, fpar(ftext("Orange: 10% < [diff] <= 20%", prop = fp_text(font.size = 9)), fp_p = par_style))
+doc_word <- body_add_fpar(doc_word, fpar(ftext("Red:    [diff] > 20%",        prop = fp_text(font.size = 9)), fp_p = par_style))
+doc_word <- body_add_break(doc_word)
+
+formatted_N2O_IF <- fpar(
+  ftext("N",              fp_text(font.size = 13, bold = TRUE, font.family = "Calibri (Headings)")),
+  ftext("2",               fp_text(font.size = 13, bold = TRUE, font.family = "Calibri (Headings)", vertical.align = "subscript")),
+  ftext("O Inorganic Fertilizers", fp_text(font.size = 13, bold = TRUE, font.family = "Calibri (Headings)"))
+)
+doc_word <- body_add_fpar(doc_word, formatted_N2O_IF, style = "heading 2")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_gg(doc_word, value = N2O_IF_emissions, res = 600,
+                        width = 6, height = 3.33, style = "centered")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_flextable(doc_word, value = ft_N2O_IF_emissions)
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_fpar(doc_word, fpar(ftext("Variable: Emissions|N2O|Land|Agriculture|Agricultural Soils|+|Inorganic Fertilizers", prop = fp_text(font.size = 9)), fp_p = par_style))
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_fpar(doc_word, fpar(ftext("Green:  [diff] <= 10%",       prop = fp_text(font.size = 9)), fp_p = par_style))
+doc_word <- body_add_fpar(doc_word, fpar(ftext("Orange: 10% < [diff] <= 20%", prop = fp_text(font.size = 9)), fp_p = par_style))
+doc_word <- body_add_fpar(doc_word, fpar(ftext("Red:    [diff] > 20%",        prop = fp_text(font.size = 9)), fp_p = par_style))
+doc_word <- body_add_break(doc_word)
+
+formatted_N2O_MAC <- fpar(
+  ftext("N",              fp_text(font.size = 13, bold = TRUE, font.family = "Calibri (Headings)")),
+  ftext("2",               fp_text(font.size = 13, bold = TRUE, font.family = "Calibri (Headings)", vertical.align = "subscript")),
+  ftext("O Manure Applied to Croplands", fp_text(font.size = 13, bold = TRUE, font.family = "Calibri (Headings)"))
+)
+doc_word <- body_add_fpar(doc_word, formatted_N2O_MAC, style = "heading 2")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_gg(doc_word, value = N2O_MAC_emissions, res = 600,
+                        width = 6, height = 3.33, style = "centered")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_flextable(doc_word, value = ft_N2O_MAC_emissions)
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_fpar(doc_word, fpar(ftext("Variable: Emissions|N2O|Land|Agriculture|Agricultural Soils|+|Manure applied to Croplands", prop = fp_text(font.size = 9)), fp_p = par_style))
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_fpar(doc_word, fpar(ftext("Green:  [diff] <= 10%",       prop = fp_text(font.size = 9)), fp_p = par_style))
+doc_word <- body_add_fpar(doc_word, fpar(ftext("Orange: 10% < [diff] <= 20%", prop = fp_text(font.size = 9)), fp_p = par_style))
+doc_word <- body_add_fpar(doc_word, fpar(ftext("Red:    [diff] > 20%",        prop = fp_text(font.size = 9)), fp_p = par_style))
+doc_word <- body_add_break(doc_word)
+
+formatted_N2O_DCR <- fpar(
+  ftext("N",              fp_text(font.size = 13, bold = TRUE, font.family = "Calibri (Headings)")),
+  ftext("2",               fp_text(font.size = 13, bold = TRUE, font.family = "Calibri (Headings)", vertical.align = "subscript")),
+  ftext("O Decay of Crop Residues", fp_text(font.size = 13, bold = TRUE, font.family = "Calibri (Headings)"))
+)
+doc_word <- body_add_fpar(doc_word, formatted_N2O_DCR, style = "heading 2")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_gg(doc_word, value = N2O_DCR_emissions, res = 600,
+                        width = 6, height = 3.33, style = "centered")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_flextable(doc_word, value = ft_N2O_DCR_emissions)
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_fpar(doc_word, fpar(ftext("Variable: Emissions|N2O|Land|Agriculture|Agricultural Soils|+|Decay of Crop Residues", prop = fp_text(font.size = 9)), fp_p = par_style))
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_fpar(doc_word, fpar(ftext("Green:  [diff] <= 10%",       prop = fp_text(font.size = 9)), fp_p = par_style))
+doc_word <- body_add_fpar(doc_word, fpar(ftext("Orange: 10% < [diff] <= 20%", prop = fp_text(font.size = 9)), fp_p = par_style))
+doc_word <- body_add_fpar(doc_word, fpar(ftext("Red:    [diff] > 20%",        prop = fp_text(font.size = 9)), fp_p = par_style))
+doc_word <- body_add_break(doc_word)
+
+formatted_N2O_BCR <- fpar(
+  ftext("N",              fp_text(font.size = 13, bold = TRUE, font.family = "Calibri (Headings)")),
+  ftext("2",               fp_text(font.size = 13, bold = TRUE, font.family = "Calibri (Headings)", vertical.align = "subscript")),
+  ftext("O Burning of Crop Residues", fp_text(font.size = 13, bold = TRUE, font.family = "Calibri (Headings)"))
+)
+doc_word <- body_add_fpar(doc_word, formatted_N2O_BCR, style = "heading 2")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_gg(doc_word, value = N2O_BCR_emissions, res = 600,
+                        width = 6, height = 3.33, style = "centered")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_flextable(doc_word, value = ft_N2O_BCR_emissions)
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_fpar(doc_word, fpar(ftext("Variable: Emissions|N2O|Land|Biomass Burning|+|Burning of Crop Residues", prop = fp_text(font.size = 9)), fp_p = par_style))
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_fpar(doc_word, fpar(ftext("Green:  [diff] <= 10%",       prop = fp_text(font.size = 9)), fp_p = par_style))
+doc_word <- body_add_fpar(doc_word, fpar(ftext("Orange: 10% < [diff] <= 20%", prop = fp_text(font.size = 9)), fp_p = par_style))
+doc_word <- body_add_fpar(doc_word, fpar(ftext("Red:    [diff] > 20%",        prop = fp_text(font.size = 9)), fp_p = par_style))
+doc_word <- body_add_break(doc_word)
+
+formatted_N2O_AWM <- fpar(
+  ftext("N",              fp_text(font.size = 13, bold = TRUE, font.family = "Calibri (Headings)")),
+  ftext("2",               fp_text(font.size = 13, bold = TRUE, font.family = "Calibri (Headings)", vertical.align = "subscript")),
+  ftext("O Animal Waste Management", fp_text(font.size = 13, bold = TRUE, font.family = "Calibri (Headings)"))
+)
+doc_word <- body_add_fpar(doc_word, formatted_N2O_AWM, style = "heading 2")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_gg(doc_word, value = N2O_AWM_emissions, res = 600,
+                        width = 6, height = 3.33, style = "centered")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_flextable(doc_word, value = ft_N2O_AWM_emissions)
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_fpar(doc_word, fpar(ftext("Variable: Emissions|N2O|Land|Agriculture|+|Animal Waste Management", prop = fp_text(font.size = 9)), fp_p = par_style))
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_fpar(doc_word, fpar(ftext("Green:  [diff] <= 10%",       prop = fp_text(font.size = 9)), fp_p = par_style))
+doc_word <- body_add_fpar(doc_word, fpar(ftext("Orange: 10% < [diff] <= 20%", prop = fp_text(font.size = 9)), fp_p = par_style))
+doc_word <- body_add_fpar(doc_word, fpar(ftext("Red:    [diff] > 20%",        prop = fp_text(font.size = 9)), fp_p = par_style))
+doc_word <- body_add_break(doc_word)
+
+formatted_N2O_Peat <- fpar(
+  ftext("N",              fp_text(font.size = 13, bold = TRUE, font.family = "Calibri (Headings)")),
+  ftext("2",               fp_text(font.size = 13, bold = TRUE, font.family = "Calibri (Headings)", vertical.align = "subscript")),
+  ftext("O Peatland", fp_text(font.size = 13, bold = TRUE, font.family = "Calibri (Headings)"))
+)
+doc_word <- body_add_fpar(doc_word, formatted_N2O_Peat, style = "heading 2")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_gg(doc_word, value = N2O_Peat_emissions, res = 600,
+                        width = 6, height = 3.33, style = "centered")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_flextable(doc_word, value = ft_N2O_Peat_emissions)
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_fpar(doc_word, fpar(ftext("Variable: Emissions|N2O|Land|Peatland|+|Managed", prop = fp_text(font.size = 9)), fp_p = par_style))
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_fpar(doc_word, fpar(ftext("Green:  [diff] <= 10%",       prop = fp_text(font.size = 9)), fp_p = par_style))
+doc_word <- body_add_fpar(doc_word, fpar(ftext("Orange: 10% < [diff] <= 20%", prop = fp_text(font.size = 9)), fp_p = par_style))
+doc_word <- body_add_fpar(doc_word, fpar(ftext("Red:    [diff] > 20%",        prop = fp_text(font.size = 9)), fp_p = par_style))
+doc_word <- body_add_break(doc_word)
+
+formatted_N2O_SOML <- fpar(
+  ftext("N",              fp_text(font.size = 13, bold = TRUE, font.family = "Calibri (Headings)")),
+  ftext("2",               fp_text(font.size = 13, bold = TRUE, font.family = "Calibri (Headings)", vertical.align = "subscript")),
+  ftext("O Soil Organic Matter Loss", fp_text(font.size = 13, bold = TRUE, font.family = "Calibri (Headings)"))
+)
+doc_word <- body_add_fpar(doc_word, formatted_N2O_SOML, style = "heading 2")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_gg(doc_word, value = N2O_SOML_emissions, res = 600,
+                        width = 6, height = 3.33, style = "centered")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_flextable(doc_word, value = ft_N2O_SOML_emissions)
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_fpar(doc_word, fpar(ftext("Variable: Emissions|N2O|Land|Agriculture|Agricultural Soils|+|Soil Organic Matter Loss", prop = fp_text(font.size = 9)), fp_p = par_style))
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_par(doc_word, "", style = "Normal")
+doc_word <- body_add_fpar(doc_word, fpar(ftext("Green:  [diff] <= 10%",       prop = fp_text(font.size = 9)), fp_p = par_style))
+doc_word <- body_add_fpar(doc_word, fpar(ftext("Orange: 10% < [diff] <= 20%", prop = fp_text(font.size = 9)), fp_p = par_style))
+doc_word <- body_add_fpar(doc_word, fpar(ftext("Red:    [diff] > 20%",        prop = fp_text(font.size = 9)), fp_p = par_style))
+doc_word <- body_add_break(doc_word)
+
 
 # Land Use Maps -----------------------------------------------------------
 
